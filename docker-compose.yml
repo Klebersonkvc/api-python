@@ -1,0 +1,23 @@
+﻿services:
+  db:
+    image: mongo:7
+    container_name: loja-db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - loja-db-data:/data/db
+
+  api:
+    build: .
+    container_name: loja-api
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      MONGO_URL: mongodb://db:27017
+    depends_on:
+      - db
+
+volumes:
+  loja-db-data:
